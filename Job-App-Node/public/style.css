@@ -1,0 +1,32 @@
+fieldset{
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+}
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f3f3f3;
+    margin: 0;
+    padding: 0;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.radio{
+    justify-content: center;
+}
+input[type="text"],
+input[type="email"],
+input[type="number"]{
+    height: 30px;
+
+}
+
+.accent{
+    accent-color: green;
+}

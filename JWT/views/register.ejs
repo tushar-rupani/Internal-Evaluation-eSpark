@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | JWT Tokens</title>
+  <link rel="stylesheet" href="css/register.css">
+</head>
+
+<body>
+  <div class="parent-container">
+    <div class="container">
+      <div class="flex">
+        <div class="main-wrapper">
+          <img src="assets/logo.svg" alt="">
+          <h2>Welcome Back!</h2>
+          <div class="input-wrappers" style="height: auto;">
+            <form action="/store" method="POST" onsubmit="return validating()">
+              <div class="input">
+                <div class="label">
+                  <label for="">Username</label>
+                </div>
+                <input type="text" name="username" id="name" onkeyup="checkIfExists(this)" autocomplete="off">
+                <span class="mtop-30 messgae hidden" id="available"><img src="assets/check.gif" height="20" width="20"
+                    style="margin-top: 30px;
+                        padding-right: 10px;">This username is available</span>
+  
+                <span class="mtop-30 messgae hidden" id="unavailable"><img src="assets/unavailable.png" height="20" width="20"
+                    style="margin-top: 30px; padding-right: 10px;">This username is not available</span>
+  
+              </div>
+  
+              <div class="input">
+                <div class="label">
+                  <label for="">Email</label>
+                </div>
+                <input type="email" name="email" id="email" onblur="checkIfExistsEmail(this, event)" autocomplete="off">
+
+                <span class="mtop-30 messgae hidden" id="email_available"><img src="assets/check.gif" height="20" width="20"
+                  style="margin-top: 30px;
+                      padding-right: 10px;">This email is available</span>
+
+              <span class="mtop-30 messgae hidden" id="email_unavailable"><img src="assets/unavailable.png" height="20" width="20"
+                  style="margin-top: 30px; padding-right: 10px;">This email is not available.</span>
+              </div>
+  
+              <div class="input">
+                <div class="label">
+                  <label for="">Password</label>
+                </div>
+                <input type="password" name="password" id="password">
+                <span class="mtop-30 hidden" id="perror"></span>
+              </div>
+  
+              <div class="input">
+                <div class="label">
+                  <label for="">Confirm Password</label>
+                </div>
+                <input type="password" name="repassword" id="repassword">
+                <span class="mtop-30 hidden" id="reerror">The password you entered and this does not match.</span>
+              </div>
+              <div class="submit">
+                <input type="submit" value="Sign Up" id="submit-btn">
+              </div>
+              <p>Already have an account? <a href="/login">Login Here</a></p>
+            </form>
+          </div>
+        </div>
+        <div class="instructions">
+          <div class="card hidden" id="instruction-card">
+            Criteria For Password:
+
+            <ul>
+              <li>Password must be greater than 8 characters</li>
+              <li>It should be alphanumeric. It must contain one capital character</li>
+              <li>Should contain atleast one speical character. (@, #, $)</li>
+              <li>If your username is "tushar" then password should not contain "tushar"</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flex-img">
+        <img src="assets/bottom-logo.png" alt="">
+
+      </div>
+    </div>
+  </div>
+
+</body>
+<script src="js/validate.js"></script>
+
+</html>

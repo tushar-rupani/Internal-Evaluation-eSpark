@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data of The Job Applicants</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        i:hover {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include("navbar") %>
+        <br><br>
+        <span class="btn btn-success m-2" id="selectAll">Restore All</span>
+        <table class="table table-hover m-2">
+            <thead>
+                <tr id="<%= ans[0]?.id %>">
+                    <th scope="col">Action</th>
+                    <th scope="col"># </th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Contact No</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">Date </th>
+                    <th scope="col">View</th>
+                    <th scope="col">Restore</th>
+
+                </tr>
+            </thead>
+            <tbody id="tb">
+                <% for(let i=0; i<ans.length; i++) { %>
+                    <tr id="t<%= ans[i]?.id %>">
+                        <th>
+                            <input type="checkbox" name="delete_all" id="<%= ans[i]?.id %>">
+                        </th>
+                        <th scope="row">
+                            <%= ans[i]?.id %>
+                        </th>
+                        <td>
+                            <%= ans[i]?.first_name %>
+                                <%= ans[i]?.last_name %>
+                        </td>
+                        <td>
+                            <%= ans[i]?.contact_no %>
+                        </td>
+                        <td>
+                            <%= ans[i]?.address?.substring(0, 30) %>
+                        </td>
+                        <td>
+                            <%= ans[i]?.email %>
+                        </td>
+                        <td>
+                            <%= ans[i]?.gender %>
+                        </td>
+                        <td>
+                            <%= ans[i]?.created_at.toString().substring(0, 25) %>
+                        </td>
+                        <td><a href="/data-details/<%= ans[i].id %>"><i class="bi bi-eye-fill"></i></a></td>
+                        <td><span style="color: darkgreen" id="<%= ans[i].id %>" onclick="handleArchive(this)"><i
+                                    class="bi bi-bootstrap-reboot"></i></span></td>
+                    </tr>
+
+                    <% } %>
+            </tbody>
+        </table>
+    <span id="delete-all" style="display: none; width: 200px;" class="btn btn-success m-2">Restore Selected</span>
+
+</body>
+
+</html>
+<script>
+    const checkboxes = document.querySelectorAll("input[type='checkbox']");
+    const deleteBtn = document.getElementById("delete-all");
+    const selectAll = document.getElementById("selectAll");
+    var id_array = [];
+    selectAll.addEventListener("click", () => {
+        swal({
+            title: "Are you sure?",
+            text: "Once restored, you can view data from the show data! No worries.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+
+                    fetch("/restore-all", {
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            id_data: id_array,
+
+                        })
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            console.log(data);
+                            if(data){
+                                swal("Poof! Your data has been restored! Check them in Show Data section!!", {
+                                    icon: "success",
+                                }).then((okay) => {
+                                    if (okay) {
+                                        // location.reload(true);
+                                        document.getElementById("tb").innerHTML = ""
+
+                                    }
+                                })
+                            }
+                        })
+                        .catch(error => console.error(error))
+                } else {
+                    swal("Okay! We are not restoring your data");
+                }
+            });
+    })
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener("change", () => {
+            if (checkbox.checked) {
+                id_array.push(parseInt(checkbox.id))
+            } else {
+                const index = id_array.indexOf(parseInt(checkbox.id));
+                id_array.splice(index, 1);
+            }
+            const isChecked = Array.from(checkboxes).filter(checkbox => checkbox.checked).length;
+            if (isChecked > 1) {
+                deleteBtn.style.display = "block";
+            } else {
+                deleteBtn.style.display = "none";
+            }
+        })
+    })
+    deleteBtn.addEventListener("click", () => {
+
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you can restore data from the Archives! No worries.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+
+                    fetch("/restore-bulk", {
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            id_data: id_array,
+
+                        })
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            console.log(data);
+                            if(data){
+                                swal("Poof! Your data has been restored! Check them in Show Data section!", {
+                                    icon: "success",
+                                }).then((okay) => {
+                                    if (okay) {
+                                        // location.reload(true);
+                                        id_array.forEach(id => {
+                                            let ele = `t${id}`;
+                                            document.getElementById(ele).style.display = "none";
+                                        })
+                                        deleteBtn.style.display = "none"
+                                    }
+                                })
+                            }
+                        })
+                        .catch(error => console.error(error))
+                } else {
+                    swal("Okay! We are not restoring your data");
+                }
+            });
+
+
+
+
+    })
+    function handleArchive(event) {
+        let id = event.id 
+        fetch(`/restore-data/${id}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data) {
+                    swal("Woah! We recovered that piece of data for you!", {
+                                    icon: "success",}).then(okay => {
+                                        if(okay){
+                                            // location.reload(true);
+                                            let ele = `t${id}`;
+                                            document.getElementById(ele).style.display = "none";
+                                        }
+                                    })
+                }
+            })
+    } 
+</script>

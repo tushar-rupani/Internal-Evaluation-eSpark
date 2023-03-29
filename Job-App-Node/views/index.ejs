@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Form</title>
+    <link rel="stylesheet" href="style.css">
+    <style> 
+        body{
+            background-color: #f3f3f3;
+        }
+        
+    </style>
+</head>
+<body>
+    <%- include("navbar") %>
+    <br><br>
+    <form action="data" method="post" class="m-5">
+
+        <fieldset>
+            <legend>Basic Details</legend>
+            <div id="name" class="flex">
+                <label for="fname">First Name:</label>
+                <input type="text" name="fname" id="fname" />
+
+                <label for="lname">Last Name: </label>
+                <input type="text" name="lname" id="lname" />
+            </div>
+            <br>
+            <div id="desig" class="flex">
+                <label for="desig">Job Info: </label>
+                <input type="text" name="desig" id="desig" />
+
+                <label for="email">Email: </label>
+                <input type="email" name="email" id="email" />
+            </div>
+            <br>
+
+
+            <div id="address" class="flex">
+                <label for="address1">Address 1: </label>
+                <input type="text" name="address1" id="address1" />
+
+                <label for="address2">Address 2: </label>
+                <input type="text" name="address2" id="address2" />
+            </div>
+
+            <br>
+            <div id="city" class="flex">
+                <label>State: </label>
+                   <select onchange="dropChange(this)" name="state">
+                       <option selected disabled>Select State</option>
+                       <% for(let i=0; i < state_data.length; i++) {%>
+                           <option value="<%= state_data[i].id %>"><%= state_data[i].name %></option>
+                           <% } %>
+                   </select>
+                <label for="city">City  :</label>
+                <!-- <input type="text" name="city" id="city" style="margin-left: 17px;" />
+                 -->
+                 <select name="city" id="city_drop" style="width: 150px;">
+                    <option selected disabled>Select City</option>
+                 </select>
+
+                
+            </div>
+
+            <br><br>
+            <div id="drops" class="flex">
+                <div class="flex">
+                    <label for="city">Relationship Status: </label>
+                    <select>
+                        <% for(let i=0; i < gender_data.length; i++) {%>
+                            <option value="<%= gender_data[i].value %>"><%= gender_data[i].value %></option>
+                            <% } %>
+                    </select>
+                </div>
+
+                <div class="flex">
+
+                    <label for="ph" style="margin-left: 5rem;">Phone Number: </label>
+                <input type="number" name="ph" id="ph" />
+                    
+                </div>
+
+            </div>
+
+
+            <br><br>
+            <div id="gender" class="flex">
+                <div class="flex radio">
+                    <label for="">Gender</label>
+                    <input type="radio" name="gender" id="gender" value="M">Male
+                    <input type="radio" name="gender" id="gender" value="F">Female
+                    <input type="radio" name="gender" id="gender" value="O">Prefer not to say
+                </div>
+                <div id="pincode">
+                    <label for="pincode">Enter Pincode: </label>
+                    <input type="text" name="pincode" id="pincode" placeholder="Enter Pincode" />
+                </div>
+                <div id="dob">
+                    <label for="">Date of Birth</label>
+                    <input type="date" name="date" id="">
+                </div>
+            </div>
+        </fieldset>
+        <br>
+        <fieldset>
+            <legend>Educational Details</legend>
+            <div id="educational-container">
+                <div>
+                    <!-- Course: <input type="text" name="course" id="course"> &nbsp;
+                     -->
+                     Course:
+                     <select name="education">
+                        <% for(let i=0; i < course_data.length; i++) {%>
+                            <option value="<%= course_data[i].value %>"><%= course_data[i].value %></option>
+                            <% } %>
+                    </select>
+                    Board: <input type="text" name="board" id="board"> &nbsp;
+                    Passing Year: <input type="text" name="year" id="year"> &nbsp;
+                    Percentage: <input type="text" name="percentage" id="percentage"> &nbsp;
+                    <br><br>
+                </div>
+            </div>
+            <a id="add" style="padding: 10px; background-color: #444; color: #fff ;">Add Education</a>
+        </fieldset>
+
+        <br>
+        <fieldset>
+            <legend>Experience Details</legend>
+            <div id="experience-container">
+                <div>
+                    Company Name: <input type="text" name="company" id="company"> &nbsp;
+                    Designation: <input type="text" name="designation" id="designation"> &nbsp;
+                    From: <input type="date" name="from_date" id="from_date"> &nbsp;
+                    To: <input type="date" name="to_date" id="to_date"> &nbsp;
+                    <br><br>
+                </div>
+            </div>
+            <a id="add_expr" style="padding: 10px; background-color: #444; color: #fff ;">Add Experience</a>
+        </fieldset>
+
+        <br>
+        <div class="flex" style="justify-content: space-around;">
+            <fieldset>
+                <legend>Languages Known</legend>
+                <center>
+                    <div id="lang-container" style="overflow-y: scroll; height: 150px;">
+                        
+                    <% for(let i=0; i < lang_data.length; i++) { %>
+                        <div class="lang">
+                            <input type="checkbox" name="lang" id="<%= lang_data[i].value %>_parent" value="<%= lang_data[i].value %>" class="accent" onclick="selectAll(this)"> <%= lang_data[i].value %> &nbsp;&nbsp;&nbsp;&nbsp;
+
+
+                            <input type="checkbox" name="<%= lang_data[i].value %>r" id="<%= lang_data[i].value %>" value=10 onclick="updateParent(this)"> Read
+                            <input type="checkbox" name="<%= lang_data[i].value %>w" id="<%= lang_data[i].value %>" value=10 onclick="updateParent(this)"> Write
+                            <input type="checkbox" name="<%= lang_data[i].value %>s" id="<%= lang_data[i].value %>" value=10 onclick="updateParent(this)"> Speak
+                        </div><br>
+                    <% } %>
+                    </div>
+                </center>
+            </fieldset>
+            <fieldset>
+                <legend>Technologies</legend>
+                <center>
+                    <div id="tech-container" style="overflow-y: scroll; height: 150px;">
+                        <% for(let i=0; i<tech_data.length; i++) { %>
+                            <div>
+                                <input type="checkbox" name="tech" value="<%= tech_data[i].value %>"> <%= tech_data[i].value %>
+                                
+                                <input type="radio" name="<%= tech_data[i].value %>a" value="beginner"> Beginner
+                                <input type="radio" name="<%= tech_data[i].value %>a" value="intermediate"> Intermediate
+                                <input type="radio" name="<%= tech_data[i].value %>a" value="expert"> Expert
+                            </div><br>
+                        <% } %>
+                        
+                    </div>
+                </center>
+            </fieldset>
+        </div>
+        <br><br>
+        <div class="flex" style="justify-content: space-around;">
+            <fieldset>
+                <legend>References</legend>
+                <center>
+                    <div id="lang-container">
+                        <div>
+                            Name: <input type="text" name="ref_name">
+                            Contact No: <input type="text" name="ref_cno">
+                            Relation: <input type="text" name="ref_relation">
+
+                        </div><br>
+                        <div>
+                            Name: <input type="text" name="ref_name">
+                            Contact No: <input type="text" name="ref_cno">
+                            Relation: <input type="text" name="ref_relation">
+                        </div><br>
+
+                    </div>
+                </center>
+            </fieldset>
+        </div><br><br>
+        <div>
+            <fieldset>
+                <legend>Preferences</legend>
+                <center>
+                    <div id="pref-container" class="flex" style="justify-content: space-around;">
+                        <div>
+                            Preffered Location:
+                            <select multiple name="locations">
+                                <% for(let i=0; i < location_data.length; i++) {%>
+                                    <option value="<%= location_data[i].value %>"><%= location_data[i].value %></option>
+                                    <% } %>
+                            </select>
+                        </div>
+                        <br><br>
+                        <div class="flex" style="flex-direction: column;">
+                            Notice Period: &nbsp;<input type="text" name="period"><br><br>
+                            Expected CTC: &nbsp;<input type="text" name="ectc"><br><br>
+                            Current CTC: &nbsp;<input type="text" name="cctc"><br><br>
+                        </div>
+                        <div class="dep">
+                            Department:
+                            <select name="department">
+                                <option value="">Development</option>
+                                <option value="">Design</option>
+                                <option value="">Marketing</option>
+                            </select>
+                        </div>
+
+                    </div><br>
+
+
+        </div>
+        </center>
+        </fieldset>
+        </div>
+        <input type="submit" value="Submit Data">
+    </form>
+</body>
+<script src="app.js"></script>
+<script>
+    var data = '<%= JSON.stringify(course_data) %>';
+    var decodedData = data.replace(/&#34;/g, '"');
+    var parsedData = JSON.parse(decodedData);
+    console.log(parsedData);
+    document.getElementById("add").addEventListener("click", () => {
+    const newDivForEd = document.createElement("div");
+    newDivForEd.innerHTML += `Course: `
+    const newSelect = document.createElement("select");
+    newSelect.name = "education"
+    for(let i=0; i<parsedData.length; i++){
+        const newOption = document.createElement('option')
+        newOption.text = parsedData[i].value;
+        newOption.value = parsedData[i].value;
+        newSelect.appendChild(newOption);
+    }
+
+   newDivForEd.appendChild(newSelect);
+   newDivForEd.innerHTML += `
+    Board: <input type="text" name="board" id="board"> &nbsp;
+    Passing Year: <input type="text" name="year" id="year"> &nbsp;
+    Percentage: <input type="text" name="percentage" id="percentage"> <br> &nbsp;
+    `;
+    container.appendChild(newDivForEd);
+})
+
+</script>
+</html>

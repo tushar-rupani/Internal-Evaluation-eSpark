@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drop Down Generate</title>
+</head>
+
+<body>
+    <div id="get-data">
+        <%- ans %>
+        <%- ans2 %>
+        <%- ans3 %>
+        <%- ans4 %>
+        <%- ans5 %>
+    </div>
+</body>
+
+</html>
+
+<script>
+    async function generateDrop(id, type = "drop", multiple = "") {
+        console.log(type);
+        const response = await fetch(`/data/${id}`);
+        const data = await response.json();
+        let ansString = ``;
+        if (type == "radio") {
+            data["ans"].forEach(ele => {
+                ansString += `<input type="radio" name="radio" /> ${ele.data}`
+            });
+            const newDiv = document.createElement("div");
+            newDiv.innerHTML = ansString
+            document.getElementById("get-data").appendChild(newDiv);
+        } else if (type == "drop") {
+            const select = document.createElement("select");
+            if (multiple != "") {
+                select.multiple = true
+            }
+            let optionString = "";
+            data["ans"].forEach(ele => {
+                optionString += `<option value=${ele.id}>${ele.data}</option>`
+            });
+            select.innerHTML = optionString;
+            document.getElementById("get-data").appendChild(select);
+        }else if (type == "check") {
+            data["ans"].forEach(ele => {
+                ansString += `<input type="checkbox" name=${ele.data} /> ${ele.data}`
+            });
+            const newDiv = document.createElement("div");
+            newDiv.innerHTML = ansString
+            document.getElementById("get-data").appendChild(newDiv);
+        }
+
+    }
+    // generateDrop(1, "radio");
+    // generateDrop(2, "drop", "m",);
+    // generateDrop(3, "radio");
+    // generateDrop(4)
+    // generateDrop(5, "radio")
+</script>
+
+

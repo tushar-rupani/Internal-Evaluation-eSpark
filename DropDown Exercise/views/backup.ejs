@@ -1,0 +1,26 @@
+if (type == "radio") {
+    data["ans"].forEach(ele => {
+        ansString += `<input type="radio" name="radio" /> ${ele.data}`
+    });
+    const newDiv = document.createElement("div");
+    newDiv.innerHTML = ansString
+    document.getElementById("get-data").appendChild(newDiv);
+} else if (type == "drop") {
+    const select = document.createElement("select");
+    if (multiple != "") {
+        select.multiple = true
+    }
+    let optionString = "";
+    data["ans"].forEach(ele => {
+        optionString += `<option value=${ele.id}>${ele.data}</option>`
+    });
+    select.innerHTML = optionString;
+    document.getElementById("get-data").appendChild(select);
+}else if (type == "check") {
+    data["ans"].forEach(ele => {
+        ansString += `<input type="checkbox" name=${ele.data} /> ${ele.data}`
+    });
+    const newDiv = document.createElement("div");
+    newDiv.innerHTML = ansString
+    document.getElementById("get-data").appendChild(newDiv);
+}

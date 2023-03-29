@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | JWT Tokens</title>
+    <link rel="stylesheet" href="/css/register.css">
+</head>
+<body>
+    <div class="parent-container">
+        <div class="container">
+            <div class="main-wrapper">
+                <img src="assets/logo.svg" alt="">
+                <h2>Welcome Back!</h2>
+                <div class="input-wrappers">
+
+                 <form action="/login" method="POST">
+                <div class="input">
+                    <div class="label">
+                        <label for="">Username</label>
+                    </div>
+                    <input type="text" name="email" id="" onfocus="removeSpan()">
+                   
+                </div>
+
+                <div class="input">
+                    <div class="label">
+                        <label for="">Password</label>
+                    </div>
+                    <input type="password" name="pass" id="">
+                </div>
+
+                <p>Forgot Password? <a href="">Click Here</a></p>
+                <div class="submit">
+                    <input type="submit" value="Sign In">
+                </div>
+
+                
+            <% if(error) { %>
+                <span class="mtop-30" id="error"> <%= error.message %></span>
+            <% } %>
+
+            <% if(error?.success) { %>
+                <span class="mtop-30" id="error"> Success: <%= error?.success %></span>
+            <% } %>
+                </form>
+
+                </div>
+            <p>Don't have an account? <a href="/">Sign Up Here</a></p>
+
+            </div>
+            <div class="flex-img">
+                <img src="assets/bottom-logo.png" alt="">
+            </div>
+        </div>
+    </div>
+   
+</body>
+<script src="/js/validate.js"></script>
+
+</html>
